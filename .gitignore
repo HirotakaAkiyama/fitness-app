@@ -1,0 +1,23 @@
+# Build
+build/
+.gradle/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Spring Boot
+*.jar
+*.war
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Credentials (絶対にコミットしない)
+src/main/resources/application.properties

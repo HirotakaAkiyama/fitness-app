@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>種目登録</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2>種目登録</h2>
+        <form th:action="@{/exercises/save}" method="post">
+            <div class="form-group">
+                <label for="name">種目名</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="bodyPart">部位</label>
+                <input type="text" id="bodyPart" name="bodyPart">
+            </div>
+            <button type="submit">登録</button>
+        </form>
+        <div class="link-list">
+            <a th:href="@{/exercises/list}">種目一覧へ戻る</a>
+            <a th:href="@{/menu}">メニューへ戻る</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

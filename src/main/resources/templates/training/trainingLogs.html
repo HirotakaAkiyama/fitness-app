@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>トレーニング記録一覧</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2>トレーニング記録一覧</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>記録日</th>
+                    <th>セット数</th>
+                    <th>セット内容</th>
+                    <th>メモ</th>
+                    <th>編集</th>
+                    <th>削除</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="trainingLog : ${trainingLogs}">
+                    <td th:text="${trainingLog.logDate}">記録日</td>
+                    <td>
+                        <th:block th:each="set : ${trainingLog.sets}">
+                            <span th:text="${set.setNumber} + 'セット目'"></span><br>
+                        </th:block>
+                    </td>
+                    <td>
+                        <th:block th:each="set : ${trainingLog.sets}">
+                            <span th:text="${set.weightKg} + 'kg×' + ${set.reps} + '回'"></span><br>
+                        </th:block>
+                    </td>
+                    <td th:text="${trainingLog.memo}">メモ</td>
+                    <td>
+                        <form th:action="@{/training/edit/{id}(id=${trainingLog.id})}" method="get">
+                            <button type="submit" class="btn-secondary">編集</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/training/delete/{id}(id=${trainingLog.id})}" method="post">
+                            <button type="submit" class="btn-danger">削除</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="link-list">
+            <a th:href="@{/menu}">メニューへ戻る</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

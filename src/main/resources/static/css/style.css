@@ -1,0 +1,308 @@
+/* ===== Base ===== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* ===== Layout ===== */
+.container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ===== Card ===== */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    margin-bottom: 24px;
+}
+
+/* ===== Heading ===== */
+h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #3498db;
+}
+
+/* ===== Form ===== */
+.form-group {
+    margin-bottom: 16px;
+}
+
+label {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+    min-width: 120px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+select {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #333;
+    background: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    display: block;
+    margin-top: 4px;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+    background: #fff;
+}
+
+/* ===== Buttons ===== */
+button[type="submit"],
+.btn {
+    display: inline-block;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    text-decoration: none;
+}
+
+button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+}
+
+button[type="submit"]:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+/* 追加・主要アクションボタン */
+.btn-primary {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+/* 削除ボタン */
+.btn-danger {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* 編集ボタン */
+.btn-secondary {
+    background-color: #95a5a6;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+/* ===== Table ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+thead {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+thead th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.15s;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+tbody td {
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    vertical-align: top;
+}
+
+/* テーブル内のボタン・フォーム */
+tbody td form {
+    display: inline;
+}
+
+tbody td button[type="submit"] {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+/* ===== Links ===== */
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.link-list {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+/* ===== Menu ===== */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.menu-item {
+    display: block;
+    background: #3498db;
+    color: #fff !important;
+    text-align: center;
+    padding: 24px 16px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+}
+
+/* ===== Set section ===== */
+.set-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.set-section label {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.set-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.set-row label {
+    min-width: auto;
+    margin-bottom: 0;
+}
+
+.set-row input {
+    width: 100px;
+    margin-top: 0;
+    display: inline-block;
+}
+
+/* ===== Login / Register ===== */
+.auth-container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+.auth-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    font-size: 1rem;
+}
+
+.auth-container .link-list {
+    justify-content: center;
+    margin-top: 16px;
+    font-size: 0.9rem;
+}
+
+/* ===== Graph page ===== */
+.graph-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    margin-top: 24px;
+}
+
+canvas {
+    max-height: 400px;
+}
+
+/* ===== Error Message ===== */
+.error-message {
+    color: #e74c3c;
+}
