@@ -1,14 +1,12 @@
 package com.hirotaka.progressbody.fitness_app.controller;
 
+import com.hirotaka.progressbody.fitness_app.common.SecurityUtils;
 import com.hirotaka.progressbody.fitness_app.entity.Exercises;
-import com.hirotaka.progressbody.fitness_app.entity.Users;
 import com.hirotaka.progressbody.fitness_app.form.ExercisesForm;
 import com.hirotaka.progressbody.fitness_app.repository.UsersRepository;
 import com.hirotaka.progressbody.fitness_app.service.ExercisesService;
 import com.hirotaka.progressbody.fitness_app.service.TrainingLogsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,14 +29,14 @@ public class ExercisesController {
     private final ExercisesService exercisesService;
 
     /**
-     * ユーザーリポジトリのDI.
-     */
-    private final UsersRepository usersRepository;
-
-    /**
      * トレーニングログサービスのDI.
      */
     private final TrainingLogsService trainingLogsService;
+
+    /**
+     * 認証ユーティリティクラスのDI.
+     */
+    private final SecurityUtils securityUtils;
 
     /**
      * 種目一覧表示処理.
@@ -48,14 +46,7 @@ public class ExercisesController {
     @GetMapping("/exercises/list")
     public String showExercises(Model model) {
 
-        // セッション情報からユーザー名を取得
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-
-        // ユーザー名をもとにユーザー情報を取得する
-        Users users = usersRepository.findByUsername(username).orElseThrow();
-
-        model.addAttribute("exercises", exercisesService.findAllExercises(users));
+        model.addAttribute("exercises", exercisesService.findAllExercises(securityUtils.getLoginUser()));
         // 種目一覧画面を表示
         return "/exercises/exercisesList";
     }
@@ -82,15 +73,8 @@ public class ExercisesController {
         // エンティティの初期化
         Exercises exercises = new Exercises();
 
-        // セッション情報からユーザー名を取得
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-
-        // 取得したユーザー名から検索処理を行う
-        Users user = usersRepository.findByUsername(username).orElseThrow();
-
         // 取得したフォームの値をエンティティへ渡す
-        exercises.setUsers(user);
+        exercises.setUsers(securityUtils.getLoginUser());
         exercises.setName(form.getName());
         exercises.setBodyPart(form.getBodyPart());
         exercises.setIsDefault(false);

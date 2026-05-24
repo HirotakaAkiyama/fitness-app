@@ -1,5 +1,6 @@
 package com.hirotaka.progressbody.fitness_app.controller;
 
+import com.hirotaka.progressbody.fitness_app.common.SecurityUtils;
 import com.hirotaka.progressbody.fitness_app.dto.VolumeResultDTO;
 import com.hirotaka.progressbody.fitness_app.entity.Exercises;
 import com.hirotaka.progressbody.fitness_app.entity.Sets;
@@ -14,8 +15,6 @@ import com.hirotaka.progressbody.fitness_app.service.TrainingLogsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,11 +35,6 @@ public class TrainingLogsController {
     private final TrainingLogsService trainingLogsService;
 
     /**
-     * ユーザーリポジトリのDI.
-     */
-    private final UsersRepository usersRepository;
-
-    /**
      * 種目サービスのDI.
      */
     private final ExercisesService exercisesService;
@@ -51,6 +45,11 @@ public class TrainingLogsController {
     private final SetsService setsService;
 
     /**
+     * 認証ユーティリティクラスのDI.
+     */
+    private final SecurityUtils securityUtils;
+
+    /**
      * トレーニングログのビューへ値を渡す.
      *
      * @param model 値
@@ -59,14 +58,7 @@ public class TrainingLogsController {
     @GetMapping("training/logs")
     public String showTrainingView(Model model) {
 
-        // セッション情報からユーザー名を取得
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-
-        // ユーザー名をもとにユーザー情報を取得する
-        Users users = usersRepository.findByUsername(username).orElseThrow();
-
-        model.addAttribute("trainingLogs", trainingLogsService.findAllLogs(users));
+        model.addAttribute("trainingLogs", trainingLogsService.findAllLogs(securityUtils.getLoginUser()));
         return "/training/trainingLogs";
     }
 
@@ -78,15 +70,8 @@ public class TrainingLogsController {
     @GetMapping("training/register")
     public String showRegisterForm(Model model) {
 
-        // セッション情報からユーザー名を取得
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-
-        // ユーザー名をもとにユーザー情報を取得する
-        Users users = usersRepository.findByUsername(username).orElseThrow();
-
         // 種目の全件取得
-        List<Exercises> list = exercisesService.findAllExercises(users);
+        List<Exercises> list = exercisesService.findAllExercises(securityUtils.getLoginUser());
 
         // 種目の登録プルダウン用に値を渡す
         model.addAttribute("training", list);
@@ -104,11 +89,11 @@ public class TrainingLogsController {
     @PostMapping("training/save")
     public String saveLogs(@Valid @ModelAttribute TrainingLogsForm trainingForm, BindingResult result, Model model) {
 
+        Users users = securityUtils.getLoginUser();
+
         // バリデーションチェックでエラーがある場合
         if (result.hasErrors()) {
             // フォームに種目リストを再セットして戻す
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            Users users = usersRepository.findByUsername(auth.getName()).orElseThrow();
             model.addAttribute("training", exercisesService.findAllExercises(users));
 
             // 前回の入力内容を再セット
@@ -119,13 +104,6 @@ public class TrainingLogsController {
 
         // エンティティの初期化
         TrainingLogs trainingLogs = new TrainingLogs();
-
-        // セッション情報からユーザー情報を取得
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-         String username = auth.getName();
-
-         // 取得した情報から検索処理を行う
-        Users users = usersRepository.findByUsername(username).orElseThrow();
 
         // 種目の検索
         Exercises exercises = exercisesService.findById(trainingForm.getExerciseId());
@@ -194,19 +172,12 @@ public class TrainingLogsController {
         // エンティティの初期化
         TrainingLogs trainingLogs = new TrainingLogs();
 
-        // セッション情報からユーザー名を取得
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-
-        // ユーザー名をもとにユーザー情報を取得する
-        Users users = usersRepository.findByUsername(username).orElseThrow();
-
         // 種目情報を取得する
         Exercises exercises = exercisesService.findById(trainingLogsForm.getExerciseId());
 
         // エンティティへの値の受け渡し
         trainingLogs.setId(id);
-        trainingLogs.setUsers(users);
+        trainingLogs.setUsers(securityUtils.getLoginUser());
         trainingLogs.setExercises(exercises);
         trainingLogs.setLogDate(trainingLogsForm.getLogDate());
         trainingLogs.setMemo(trainingLogsForm.getMemo());
@@ -254,12 +225,8 @@ public class TrainingLogsController {
     @GetMapping("training/showGraph")
     public String showGraph(@RequestParam(required = false) Long exerciseId, Model model) {
 
-        // セッション情報からユーザー名を取得
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-
-        // ユーザー名をもとにユーザー情報を取得する
-        Users users = usersRepository.findByUsername(username).orElseThrow();
+        // ユーザー情報の取得
+        Users users = securityUtils.getLoginUser();
 
         // 種目リストの取得
         List<Exercises> exercisesList = exercisesService.findAllExercises(users);
