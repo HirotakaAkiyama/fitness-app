@@ -4,6 +4,7 @@ import com.hirotaka.progressbody.fitness_app.entity.Exercises;
 import com.hirotaka.progressbody.fitness_app.entity.Users;
 import com.hirotaka.progressbody.fitness_app.repository.ExercisesRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +24,10 @@ public class ExercisesService {
      * @return 種目全件
      */
     public List<Exercises> findAllExercises(Users users) {
+        // ソート条件を指定
+        Sort sort = Sort.by("id");
         // 種目を返す
-        return exercisesRepository.findByUsers(users);
+        return exercisesRepository.findByUsers(users, sort);
     }
 
     /**
@@ -64,5 +67,26 @@ public class ExercisesService {
     public Optional<Exercises> findDefaultExercise(Users users) {
         // デフォルト種目の取得
         return exercisesRepository.findByIsDefaultAndUsers(true, users);
+    }
+
+    /**
+     * デフォルト種目更新処理.
+     *
+     * @param users ユーザー情報
+     * @param id 種目id.
+     */
+    public void updateDefaultExercise(Users users, Long id) {
+        // 現在のデフォルト種目を取得
+        Optional<Exercises> oldDefault = exercisesRepository.findByIsDefaultAndUsers(true, users);
+        // すでにデフォルト種目がある場合、フラグを外す
+        if (oldDefault.isPresent()) {
+            oldDefault.get().setIsDefault(false);
+            saveExercises(oldDefault.get());
+        }
+
+        // 新デフォルト種目を取得
+        Exercises newDefault = exercisesRepository.findById(id).orElseThrow();
+        newDefault.setIsDefault(true);
+        saveExercises(newDefault);
     }
 }

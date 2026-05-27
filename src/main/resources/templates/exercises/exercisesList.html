@@ -9,11 +9,15 @@
 <div class="container">
     <div class="card">
         <h2>種目一覧</h2>
+        <form id="default-form" th:action="@{/exercises/default}" method="post">
+            <input type="hidden" id="selected-id" name="id">
+        </form>
         <table>
             <thead>
                 <tr>
                     <th>種目名</th>
                     <th>部位</th>
+                    <th>グラフ初期表示</th>
                     <th>編集</th>
                     <th>削除</th>
                 </tr>
@@ -22,6 +26,11 @@
                 <tr th:each="exercise : ${exercises}">
                     <td th:text="${exercise.name}">種目名</td>
                     <td th:text="${exercise.bodyPart}">部位名</td>
+                    <td>
+                        <input type="radio" name="defaultFlag"
+                               th:checked="${exercise.isDefault}"
+                               th:data-id="${exercise.id}">
+                    </td>
                     <td>
                         <form th:action="@{/exercises/edit/{id}(id=${exercise.id})}">
                             <button type="submit" class="btn-secondary">編集</button>
@@ -45,5 +54,6 @@
     </div>
 </div>
 
+<script th:src="@{/js/exercises/exercisesList.js}"></script>
 </body>
 </html>
