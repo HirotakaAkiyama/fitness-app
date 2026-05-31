@@ -30,7 +30,7 @@ public class UsersController {
      */
     @GetMapping("/login")
     public String showLogin() {
-        return "/users/login";
+        return "users/login";
     }
 
     /**
@@ -40,7 +40,7 @@ public class UsersController {
      */
     @GetMapping("/register")
     public String showRegister() {
-        return "/users/register";
+        return "users/register";
     }
 
     /**

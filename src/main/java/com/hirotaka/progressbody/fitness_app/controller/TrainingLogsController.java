@@ -59,7 +59,7 @@ public class TrainingLogsController {
     public String showTrainingView(Model model) {
 
         model.addAttribute("trainingLogs", trainingLogsService.findAllLogs(securityUtils.getLoginUser()));
-        return "/training/trainingLogs";
+        return "training/trainingLogs";
     }
 
     /**
@@ -77,7 +77,7 @@ public class TrainingLogsController {
         model.addAttribute("training", list);
 
         // 画面の返却
-        return "/training/trainingRegistrationForm";
+        return "training/trainingRegistrationForm";
     }
 
     /**
@@ -99,7 +99,7 @@ public class TrainingLogsController {
             // 前回の入力内容を再セット
             model.addAttribute("trainingLogsForm", trainingForm);
 
-            return "/training/trainingRegistrationForm";
+            return "training/trainingRegistrationForm";
         }
 
         // エンティティの初期化

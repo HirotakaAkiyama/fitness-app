@@ -45,7 +45,7 @@ public class ExercisesController {
 
         model.addAttribute("exercises", exercisesService.findAllExercises(securityUtils.getLoginUser()));
         // 種目一覧画面を表示
-        return "/exercises/exercisesList";
+        return "exercises/exercisesList";
     }
 
     /**
@@ -113,7 +113,7 @@ public class ExercisesController {
         model.addAttribute("targetExercises", exercisesService.findById(id));
 
         // 種目編集画面へ遷移
-        return "/exercises/exercisesEdit";
+        return "exercises/exercisesEdit";
     }
 
     /**
