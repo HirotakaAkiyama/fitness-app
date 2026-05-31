@@ -8,8 +8,8 @@ build/
 .vscode/
 
 # Spring Boot
-*.jar
-*.war
+build/**/*.jar
+build/**/*.war
 
 # Logs
 *.log
