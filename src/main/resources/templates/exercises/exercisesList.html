@@ -2,6 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>種目一覧</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -12,6 +13,7 @@
         <form id="default-form" th:action="@{/exercises/default}" method="post">
             <input type="hidden" id="selected-id" name="id">
         </form>
+        <div class="table-responsive">
         <table>
             <thead>
                 <tr>
@@ -44,6 +46,7 @@
                 </tr>
             </tbody>
         </table>
+        </div>
         <div th:if="${errorMessage != null}" class="error-message">
             <p th:text="${errorMessage}"></p>
         </div>
