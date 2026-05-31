@@ -22,7 +22,7 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/menu")
+                        .defaultSuccessUrl("/menu", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
